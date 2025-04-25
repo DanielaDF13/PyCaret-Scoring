@@ -1,12 +1,10 @@
-# Imports
 import os
 import pickle
 import pandas as pd
 import streamlit as st
-
+import requests
 from io import BytesIO
 from pycaret.classification import predict_model
-
 
 # Utilitário para converter para Excel
 @st.cache_data
@@ -16,6 +14,16 @@ def to_excel(df):
         df.to_excel(writer, index=False, sheet_name='Sheet1')
     return output.getvalue()
 
+# Função para fazer download do modelo a partir da URL
+def load_model_from_url(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Verifica se a requisição foi bem-sucedida
+        model = pickle.loads(response.content)
+        return model
+    except Exception as e:
+        st.error(f"❌ Erro ao carregar o modelo da URL: {e}")
+        return None
 
 # Função principal do Streamlit
 def main():
@@ -27,7 +35,7 @@ def main():
     )
 
     st.title("🧠 Escoragem com Modelo Treinado no PyCaret")
-    st.markdown("Faça upload de um arquivo `.ftr` ou `.csv`, e o modelo aplicará a escoragem automaticamente.")
+    st.markdown("Faça upload de um arquivo .ftr ou .csv, e o modelo aplicará a escoragem automaticamente.")
     st.markdown("---")
 
     # Upload de arquivo
@@ -61,15 +69,14 @@ def main():
         n_sample = st.slider("🔍 Tamanho da amostra para escoragem", 1000, min(50000, len(df)), 5000)
         df_sample = df.sample(n_sample).reset_index(drop=True)
 
-        # Carregar modelo
+        # Carregar modelo da URL
         st.markdown("---")
         st.subheader("⚙️ Escorando com o Modelo")
-        try:
-            model_path = os.path.join(os.path.dirname(__file__), "model_final.pkl")
-            model = pickle.load(open(model_path, "rb"))
-        except Exception as e:
-            st.error(f"❌ Erro ao carregar o modelo: {e}")
-            return
+        model_url = "https://github.com/DanielaDF13/PyCaret-Scoring/blob/d791080b22555993fe26503013e7b8bf49dc2c44/data/model_final.pkl?raw=true"
+        model = load_model_from_url(model_url)
+        
+        if model is None:
+            return  # Se o modelo não for carregado, não continua a execução
 
         # Previsão
         try:
