@@ -10,4 +10,5 @@ O **PyCaret Scoring App** realiza as seguintes tarefas:
 3. As previsões são exibidas na interface do aplicativo.
 4. O usuário pode baixar as previsões em um arquivo Excel para análise posterior.
    
-Veja a demonstração do app aqui:[streamlit-PyCaret_Scoring_App-2025-04-25-11-04-33.webm](https://github.com/user-attachments/assets/817eb8ba-9620-4752-9926-b8258dbf3031)
+Veja a demonstração do app aqui:
+[streamlit-PyCaret_Scoring_App-2025-04-25-11-04-33.webm](https://github.com/user-attachments/assets/817eb8ba-9620-4752-9926-b8258dbf3031)
