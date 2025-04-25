@@ -1,4 +1,4 @@
-# 🧠 PyCaret Scoring App
+# PyCaret Scoring App
 
 Este aplicativo utiliza um modelo de aprendizado de máquina treinado com o **PyCaret** para realizar escoragem em dados fornecidos pelo usuário. O modelo foi previamente treinado e salvo, e o aplicativo permite que o usuário faça previsões automaticamente com base em dados de entrada em formato `.ftr` ou `.csv`.
 
